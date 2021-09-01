@@ -9,6 +9,23 @@ namespace InvertedObserver.Tests
     public class ExchangeMarketTests
     {
         [Fact]
+        public void OrderRegistrationShouldNotAffectPriceHistoryOfEachOther()
+        {
+    
+            var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 100.0m);
+            var buyOrder = new BuyOrder(resistanceLevel: 109.50m, subject: usdJpy);
+            var sellOrder = new SellOrder(supportLevel: 98.0m, subject: usdJpy);
+
+            Assert.Single(buyOrder.PriceHistory);
+            Assert.Single(sellOrder.PriceHistory);
+
+            usdJpy.CurrentPrice = 101m;
+
+            Assert.Equal(2, buyOrder.PriceHistory.Count());
+            Assert.Equal(2, sellOrder.PriceHistory.Count());
+        }
+
+        [Fact]
         public void ShouldJournalPriceHistory()
         {
             var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 108.41m);
