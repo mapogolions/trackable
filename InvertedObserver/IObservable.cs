@@ -5,6 +5,5 @@ namespace InvertedObserver
     public interface IObservable
     {
         IChangeToken GetReloadToken();
-        void RefreshToken();
     }
 }

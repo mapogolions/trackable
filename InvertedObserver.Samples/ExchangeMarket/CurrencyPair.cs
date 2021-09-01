@@ -28,7 +28,7 @@ namespace InvertedObserver.Samples.ExchangeMarket
 
         public IChangeToken GetReloadToken() => new CancellationChangeToken(_cts.Token);
 
-        public void RefreshToken()
+        private void RefreshToken()
         {
             var cts = _cts;
             _cts = new();
