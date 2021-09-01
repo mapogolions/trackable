@@ -9,7 +9,7 @@ namespace InvertedObserver.Tests
     public class ExchangeMarketTests
     {
         [Fact]
-        public void OrderRegistrationShouldNotAffectPriceHistoryOfEachOther()
+        public void OrdersRegistrationShouldNotAffectPriceHistoryOfEachOther()
         {
     
             var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 100.0m);
