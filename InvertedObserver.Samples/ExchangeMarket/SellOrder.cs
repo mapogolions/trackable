@@ -14,7 +14,7 @@ namespace InvertedObserver.Samples.ExchangeMarket
             _supportLevel = supportLevel;
             Subject = subject;
             ChangeToken.OnChange(Subject.GetReloadToken, OnChangePrice);
-            Subject.RefreshToken();
+            OnChangePrice();
         }
 
         public bool IsOpened { get; private set; }

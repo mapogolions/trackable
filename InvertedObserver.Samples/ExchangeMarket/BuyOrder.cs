@@ -14,7 +14,7 @@ namespace InvertedObserver.Samples.ExchangeMarket
             _resistanceLevel = resistanceLevel;
             Subject = subject;
             ChangeToken.OnChange(subject.GetReloadToken, OnChangePrice);
-            subject.RefreshToken();
+            OnChangePrice();
         }
 
         public bool IsOpened { get; private set; }
