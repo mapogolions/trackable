@@ -9,7 +9,7 @@ namespace InvertedObserver.Tests
     public class ExchangeMarketTests
     {
         [Fact]
-        public void ShouldCloseOrderAndJournalPriceHistory()
+        public void ShouldCloseOrderAndStopJournalPriceHistory()
         {
             var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 100.0m);
             var buyOrder = new BuyOrder(resistanceLevel: 102m, takeProfit: 110m, subject: usdJpy);
