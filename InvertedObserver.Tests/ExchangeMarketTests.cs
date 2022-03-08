@@ -11,10 +11,10 @@ namespace InvertedObserver.Tests
         [Fact]
         public void OrdersRegistrationShouldNotAffectPriceHistoryOfEachOther()
         {
-    
+
             var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 100.0m);
-            var buyOrder = new BuyOrder(resistanceLevel: 109.50m, subject: usdJpy);
-            var sellOrder = new SellOrder(supportLevel: 98.0m, subject: usdJpy);
+            var buyOrder = new BuyOrder(resistanceLevel: 109.50m, takeProfit: 110m, subject: usdJpy);
+            var sellOrder = new SellOrder(supportLevel: 98.0m, takeProfit: 95m, subject: usdJpy);
 
             Assert.Single(buyOrder.PriceHistory);
             Assert.Single(sellOrder.PriceHistory);
@@ -29,22 +29,21 @@ namespace InvertedObserver.Tests
         public void ShouldJournalPriceHistory()
         {
             var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 108.41m);
-            var buyOrder = new BuyOrder(resistanceLevel: 109.50m, subject: usdJpy);
+            var buyOrder = new BuyOrder(resistanceLevel: 109.50m, takeProfit: 114m, subject: usdJpy);
 
             usdJpy.CurrentPrice = 108.7m;
             usdJpy.CurrentPrice = 108.8m;
             usdJpy.CurrentPrice = 108.9m;
 
-            Assert.False(buyOrder.IsOpened);
             Assert.Equal(4, buyOrder.PriceHistory.Count());
             Assert.Equal(108.41m, buyOrder.PriceHistory.FirstOrDefault().Price);
         }
 
          [Fact]
-        public async Task OrderShouldBeOpenedOnlyOnce()
+        public async Task OrderShouldBeOpenOnlyOnce()
         {
             var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 108m);
-            var sellOrder = new SellOrder(supportLevel: 105m, subject: usdJpy);
+            var sellOrder = new SellOrder(supportLevel: 105m, takeProfit: 101m,subject: usdJpy);
 
             usdJpy.CurrentPrice = 106m;
             usdJpy.CurrentPrice = 104m;
@@ -52,7 +51,7 @@ namespace InvertedObserver.Tests
             await Task.Delay(TimeSpan.FromMilliseconds(100));
             usdJpy.CurrentPrice = 103m;
 
-            Assert.True(sellOrder.OpenedAt < checkpoint);
+            Assert.True(sellOrder.OpenTime < checkpoint);
             Assert.Equal(104m, sellOrder.OpenPrice);
         }
 
@@ -60,9 +59,9 @@ namespace InvertedObserver.Tests
         public void BuyOrderShouldBeNotifiedAtTheTimeOfAttachment()
         {
             var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 113.5m);
-            var buyOrder = new BuyOrder(resistanceLevel: 109m, subject: usdJpy);
+            var buyOrder = new BuyOrder(resistanceLevel: 109m, takeProfit: 114m, subject: usdJpy);
 
-            Assert.True(buyOrder.IsOpened);
+            Assert.Equal(OrderStatus.Open, buyOrder.Status);
             Assert.Equal(usdJpy.CurrentPrice, buyOrder.OpenPrice);
         }
 
@@ -70,32 +69,32 @@ namespace InvertedObserver.Tests
         public void SellOrderShouldBeNotifiedAtTheTimeOfAttachment()
         {
             var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 108.41m);
-            var sellOrder = new SellOrder(supportLevel: 109m, subject: usdJpy);
+            var sellOrder = new SellOrder(supportLevel: 109m, takeProfit: 100m, subject: usdJpy);
 
-            Assert.True(sellOrder.IsOpened);
+            Assert.Equal(OrderStatus.Open, sellOrder.Status);
             Assert.Equal(usdJpy.CurrentPrice, sellOrder.OpenPrice);
         }
 
         [Fact]
-        public void ShouldNotifyWhenCurrentRateLessThanSupportLevel()
+        public void ShouldNotifyWhenCurrentPriceLessThanSupportLevel()
         {
             var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 108.41m);
-            var sellOrder = new SellOrder(supportLevel: 107.00m, subject: usdJpy);
+            var sellOrder = new SellOrder(supportLevel: 107.00m, takeProfit: 105m, subject: usdJpy);
 
-            Assert.False(sellOrder.IsOpened);
+            Assert.Equal(OrderStatus.Pending, sellOrder.Status);
             usdJpy.CurrentPrice = 106.90m;
-            Assert.True(sellOrder.IsOpened);
+            Assert.Equal(OrderStatus.Open, sellOrder.Status);
         }
 
         [Fact]
-        public void ShouldNotifyWhenCurrentRateGreaterThanResistanceLevel()
+        public void ShouldNotifyWhenCurrentPriceGreaterThanResistanceLevel()
         {
             var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 108.41m);
-            var buyOrder = new BuyOrder(resistanceLevel: 109.50m, subject: usdJpy);
+            var buyOrder = new BuyOrder(resistanceLevel: 109.50m, takeProfit: 113m, subject: usdJpy);
 
-            Assert.False(buyOrder.IsOpened);
+            Assert.Equal(OrderStatus.Pending, buyOrder.Status);
             usdJpy.CurrentPrice = 110.04m;
-            Assert.True(buyOrder.IsOpened);
+            Assert.Equal(OrderStatus.Open, buyOrder.Status);
         }
     }
 }

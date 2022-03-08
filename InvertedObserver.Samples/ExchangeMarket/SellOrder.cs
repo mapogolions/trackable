@@ -7,31 +7,36 @@ namespace InvertedObserver.Samples.ExchangeMarket
     public class SellOrder : IOrder, IObserver<CurrencyPair>
     {
         private readonly decimal _supportLevel;
+        private readonly decimal _takeProfit;
         private readonly List<(DateTime, decimal)> _priceHistory = new();
 
-        public SellOrder(decimal supportLevel, CurrencyPair subject)
+        public SellOrder(decimal supportLevel, decimal takeProfit, CurrencyPair subject)
         {
+            if (subject.CurrentPrice <= takeProfit) throw new ArgumentException(nameof(takeProfit));
             _supportLevel = supportLevel;
+            _takeProfit = takeProfit;
             Subject = subject;
             ChangeToken.OnChange(Subject.GetReloadToken, OnChangePrice);
             OnChangePrice();
         }
 
-        public bool IsOpened { get; private set; }
-        public DateTime OpenedAt { get; private set; }
+        public OrderStatus Status { get; private set; } = OrderStatus.Pending;
+        public DateTime OpenTime { get; private set; }
         public decimal OpenPrice { get; private set; }
         public IEnumerable<(DateTime Timestamp, decimal Price)> PriceHistory => _priceHistory;
         public CurrencyPair Subject { get; }
 
         private void OnChangePrice()
         {
-            _priceHistory.Add((DateTime.Now, Subject.CurrentPrice));
-            if (IsOpened) return;
-            IsOpened = Subject.CurrentPrice < _supportLevel;
-            if (IsOpened)
+            var utcNow = DateTime.UtcNow;
+            var currentPrice = Subject.CurrentPrice;
+            _priceHistory.Add((utcNow, currentPrice));
+            if (Status is OrderStatus.Open) return;
+            if (currentPrice < _supportLevel)
             {
-                OpenedAt = DateTime.Now;
-                OpenPrice = Subject.CurrentPrice;
+                OpenTime = utcNow;
+                OpenPrice = currentPrice;
+                Status = OrderStatus.Open;
             }
         }
     }

@@ -5,8 +5,8 @@ namespace InvertedObserver.Samples.ExchangeMarket
 {
     public interface IOrder
     {
-        bool IsOpened { get; }
-        DateTime OpenedAt { get; }
+        OrderStatus Status { get; }
+        DateTime OpenTime { get; }
         decimal OpenPrice { get; }
         IEnumerable<(DateTime Timestamp, decimal Price)> PriceHistory { get; }
     }
