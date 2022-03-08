@@ -9,6 +9,7 @@ namespace InvertedObserver.Samples.ExchangeMarket
         private readonly decimal _supportLevel;
         private readonly decimal _takeProfit;
         private readonly List<(DateTime, decimal)> _priceHistory = new();
+        private readonly IDisposable _registration;
 
         public SellOrder(decimal supportLevel, decimal takeProfit, CurrencyPair subject)
         {
@@ -16,7 +17,7 @@ namespace InvertedObserver.Samples.ExchangeMarket
             _supportLevel = supportLevel;
             _takeProfit = takeProfit;
             Subject = subject;
-            ChangeToken.OnChange(Subject.GetReloadToken, OnChangePrice);
+            _registration = ChangeToken.OnChange(Subject.GetReloadToken, OnChangePrice);
             OnChangePrice();
         }
 
@@ -28,10 +29,19 @@ namespace InvertedObserver.Samples.ExchangeMarket
 
         private void OnChangePrice()
         {
+            if (Status is OrderStatus.Closed) return;
             var utcNow = DateTime.UtcNow;
             var currentPrice = Subject.CurrentPrice;
             _priceHistory.Add((utcNow, currentPrice));
-            if (Status is OrderStatus.Open) return;
+            if (Status is OrderStatus.Open)
+            {
+                if (currentPrice <= _takeProfit)
+                {
+                    _registration.Dispose();
+                    Status = OrderStatus.Closed;
+                }
+                return;
+            }
             if (currentPrice < _supportLevel)
             {
                 OpenTime = utcNow;

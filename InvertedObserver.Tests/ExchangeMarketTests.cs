@@ -9,6 +9,23 @@ namespace InvertedObserver.Tests
     public class ExchangeMarketTests
     {
         [Fact]
+        public void ShouldCloseOrderAndJournalPriceHistory()
+        {
+            var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 100.0m);
+            var buyOrder = new BuyOrder(resistanceLevel: 102m, takeProfit: 110m, subject: usdJpy);
+
+            usdJpy.CurrentPrice = 103m;
+            usdJpy.CurrentPrice = 113;
+
+            Assert.Equal(OrderStatus.Closed, buyOrder.Status);
+            Assert.Equal(3, buyOrder.PriceHistory.Count);
+
+            usdJpy.CurrentPrice = 114m;
+
+            Assert.Equal(3, buyOrder.PriceHistory.Count());
+        }
+
+        [Fact]
         public void ShouldThrowExceptionIfTakeProfitIsLessThanCurrencyPairPrice()
         {
             var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 100.0m);
