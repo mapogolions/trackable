@@ -23,7 +23,7 @@ namespace InvertedObserver.Samples.ExchangeMarket
         public OrderStatus Status { get; private set; } = OrderStatus.Pending;
         public DateTime OpenTime { get; private set; }
         public decimal OpenPrice { get; private set; }
-        public IEnumerable<(DateTime Timestamp, decimal Price)> PriceHistory => _priceHistory;
+        public IReadOnlyList<(DateTime Timestamp, decimal Price)> PriceHistory => _priceHistory;
 
         public CurrencyPair Subject { get; }
 

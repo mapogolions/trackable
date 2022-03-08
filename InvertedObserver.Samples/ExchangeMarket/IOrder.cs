@@ -8,6 +8,6 @@ namespace InvertedObserver.Samples.ExchangeMarket
         OrderStatus Status { get; }
         DateTime OpenTime { get; }
         decimal OpenPrice { get; }
-        IEnumerable<(DateTime Timestamp, decimal Price)> PriceHistory { get; }
+        IReadOnlyList<(DateTime Timestamp, decimal Price)> PriceHistory { get; }
     }
 }
