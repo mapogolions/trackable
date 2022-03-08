@@ -12,7 +12,7 @@ namespace InvertedObserver.Samples.ExchangeMarket
 
         public SellOrder(decimal supportLevel, decimal takeProfit, CurrencyPair subject)
         {
-            if (subject.CurrentPrice <= takeProfit) throw new ArgumentException(nameof(takeProfit));
+            if (subject.CurrentPrice <= takeProfit) throw new ArgumentOutOfRangeException(nameof(takeProfit));
             _supportLevel = supportLevel;
             _takeProfit = takeProfit;
             Subject = subject;

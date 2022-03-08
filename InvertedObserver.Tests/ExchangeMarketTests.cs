@@ -9,6 +9,22 @@ namespace InvertedObserver.Tests
     public class ExchangeMarketTests
     {
         [Fact]
+        public void ShouldThrowExceptionIfTakeProfitIsLessThanCurrencyPairPrice()
+        {
+            var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 100.0m);
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                new SellOrder(supportLevel: 102m, takeProfit: 101m, subject: usdJpy));
+        }
+
+        [Fact]
+        public void ShouldThrowExceptionIfTakeProfitIsGreaterThanCurrencyPairPrice()
+        {
+            var usdJpy = new CurrencyPair(name: "USD/JPY", currentPrice: 100.0m);
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                new BuyOrder(resistanceLevel: 98m, takeProfit: 99m, subject: usdJpy));
+        }
+
+        [Fact]
         public void OrdersRegistrationShouldNotAffectPriceHistoryOfEachOther()
         {
 
