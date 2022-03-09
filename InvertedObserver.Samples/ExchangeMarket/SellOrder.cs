@@ -8,16 +8,17 @@ namespace InvertedObserver.Samples.ExchangeMarket
     {
         private readonly decimal _supportLevel;
         private readonly decimal _takeProfit;
+        private readonly CurrencyPair _currencyPair;
         private readonly List<(DateTime, decimal)> _priceHistory = new();
         private readonly IDisposable _registration;
 
-        public SellOrder(decimal supportLevel, decimal takeProfit, CurrencyPair subject)
+        public SellOrder(decimal supportLevel, decimal takeProfit, CurrencyPair currencyPair)
         {
-            if (subject.CurrentPrice <= takeProfit) throw new ArgumentOutOfRangeException(nameof(takeProfit));
+            if (currencyPair.CurrentPrice <= takeProfit) throw new ArgumentOutOfRangeException(nameof(takeProfit));
             _supportLevel = supportLevel;
             _takeProfit = takeProfit;
-            Subject = subject;
-            _registration = ChangeToken.OnChange(Subject.GetReloadToken, OnChangePrice);
+            _currencyPair = currencyPair;
+            _registration = ChangeToken.OnChange(_currencyPair.GetReloadToken, OnChangePrice);
             OnChangePrice();
         }
 
@@ -25,13 +26,12 @@ namespace InvertedObserver.Samples.ExchangeMarket
         public DateTime OpenTime { get; private set; }
         public decimal OpenPrice { get; private set; }
         public IReadOnlyList<(DateTime Timestamp, decimal Price)> PriceHistory => _priceHistory;
-        public CurrencyPair Subject { get; }
 
         private void OnChangePrice()
         {
             if (Status is OrderStatus.Closed) return;
             var utcNow = DateTime.UtcNow;
-            var currentPrice = Subject.CurrentPrice;
+            var currentPrice = _currencyPair.CurrentPrice;
             _priceHistory.Add((utcNow, currentPrice));
             if (Status is OrderStatus.Open)
             {
