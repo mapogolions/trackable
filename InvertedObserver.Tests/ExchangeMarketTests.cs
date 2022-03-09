@@ -19,10 +19,6 @@ namespace InvertedObserver.Tests
 
             Assert.Equal(OrderStatus.Closed, buyOrder.Status);
             Assert.Equal(3, buyOrder.PriceHistory.Count);
-
-            usdJpy.CurrentPrice = 114m;
-
-            Assert.Equal(3, buyOrder.PriceHistory.Count());
         }
 
         [Fact]
