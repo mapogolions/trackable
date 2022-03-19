@@ -1,7 +1,6 @@
 using System;
 using InvertedObserver.Samples.ExchangeMarket;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace InvertedObserver.Tests.ExchangeMarket
 {
