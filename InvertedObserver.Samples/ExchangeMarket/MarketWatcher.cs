@@ -1,22 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Extensions.Primitives;
 
 namespace InvertedObserver.Samples.ExchangeMarket
 {
-    public class MarketWatcher : IObserver<CurrencyPair>, IDisposable
+    public class MarketWatcher : GroupObservable<CurrencyPair>, IObserver<CurrencyPair>, IDisposable
     {
         private readonly CurrencyPair[] _currencies;
         private readonly List<(DateTime, string[])> _journal = new();
         private readonly IDisposable _registration;
 
-        public MarketWatcher(params CurrencyPair[] currencies)
+        public MarketWatcher(params CurrencyPair[] currencies) : base(currencies)
         {
             _currencies = currencies;
-            var groupObservable = new GroupObservable<CurrencyPair>(currencies);
-            _registration = ChangeToken.OnChange(groupObservable.GetReloadToken, OnChange);
+            _registration = ChangeToken.OnChange(GetReloadToken, OnChange);
             OnChange();
         }
 
