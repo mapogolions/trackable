@@ -27,6 +27,8 @@ namespace InvertedObserver.Samples.ExchangeMarket
         public decimal OpenPrice { get; private set; }
         public IReadOnlyList<(DateTime Timestamp, decimal Price)> PriceHistory => _priceHistory;
 
+        public CurrencyPair Subject => _currencyPair;
+
         private void OnChangePrice()
         {
             if (Status is OrderStatus.Closed) return;

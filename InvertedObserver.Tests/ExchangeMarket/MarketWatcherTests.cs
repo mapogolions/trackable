@@ -33,17 +33,17 @@ namespace InvertedObserver.Tests.ExchangeMarket
             Assert.Equal(3, marketWatcher.Journal.Count);
         }
 
-        [Fact]
-        public void ShouldJournalPriceChange()
-        {
-            var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
-            var gbpJpy = new CurrencyPair("GBP/USD", 157.13m);
-            using var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
+        // [Fact]
+        // public void ShouldJournalPriceChange()
+        // {
+        //     var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
+        //     var gbpJpy = new CurrencyPair("GBP/USD", 157.13m);
+        //     using var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
 
-            usdJpy.CurrentPrice = 121m;
+        //     usdJpy.CurrentPrice = 121m;
 
-            Assert.Equal(2, marketWatcher.Journal.Count);
-        }
+        //     Assert.Equal(2, marketWatcher.Journal.Count);
+        // }
 
 
         [Fact]

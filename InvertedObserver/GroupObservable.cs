@@ -3,7 +3,8 @@ using Microsoft.Extensions.Primitives;
 
 namespace InvertedObserver
 {
-    public class GroupObservable<T> where T : IObservable
+    public class GroupObservable<T> : IObservable
+        where T : IObservable
     {
         private readonly T[] _observables;
 

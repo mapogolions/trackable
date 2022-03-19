@@ -1,6 +1,7 @@
 ﻿namespace InvertedObserver
 {
-    public interface IObserver<T> where T : IObservable { }
-
-    public interface IObserver : IObserver<IObservable> { }
+    public interface IObserver<out T> where T : IObservable
+    {
+        T Subject { get; }
+    }
 }
