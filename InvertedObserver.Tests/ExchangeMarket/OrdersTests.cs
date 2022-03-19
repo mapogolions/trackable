@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using InvertedObserver.Samples.ExchangeMarket;
 using Xunit;
 
-namespace InvertedObserver.Tests
+namespace InvertedObserver.Tests.ExchangeMarket
 {
-    public class ExchangeMarketTests
+    public class OrdersTests
     {
         [Fact]
         public void ShouldCloseOrderAndStopJournalPriceHistory()
