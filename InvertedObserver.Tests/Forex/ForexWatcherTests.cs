@@ -4,19 +4,19 @@ using Xunit;
 
 namespace InvertedObserver.Tests.Forex
 {
-    public class MarketWatchTests
+    public class ForexWatcherTests
     {
         [Fact]
         public void ShouldStopWatchingMarket()
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
             var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
-            var marketWatcher = new ForexWatcher(usdJpy, gbpJpy);
+            var forexWatcher = new ForexWatcher(usdJpy, gbpJpy);
 
-            marketWatcher.Dispose();
+            forexWatcher.Dispose();
             gbpJpy.CurrentPrice = 154m;
 
-            Assert.Single(marketWatcher.Journal);
+            Assert.Single(forexWatcher.Journal);
         }
 
         [Fact]
@@ -24,12 +24,12 @@ namespace InvertedObserver.Tests.Forex
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
             var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
-            using var marketWatcher = new ForexWatcher(usdJpy, gbpJpy);
+            using var forexWatcher = new ForexWatcher(usdJpy, gbpJpy);
 
             usdJpy.CurrentPrice = 121m;
             gbpJpy.CurrentPrice = 154m;
 
-            Assert.Equal(3, marketWatcher.Journal.Count);
+            Assert.Equal(3, forexWatcher.Journal.Count);
         }
 
         [Fact]
@@ -37,11 +37,11 @@ namespace InvertedObserver.Tests.Forex
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
             var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
-            using var marketWatcher = new ForexWatcher(usdJpy, gbpJpy);
+            using var forexWatcher = new ForexWatcher(usdJpy, gbpJpy);
 
             usdJpy.CurrentPrice = 121m;
 
-            Assert.Equal(2, marketWatcher.Journal.Count);
+            Assert.Equal(2, forexWatcher.Journal.Count);
         }
 
 
@@ -50,13 +50,13 @@ namespace InvertedObserver.Tests.Forex
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
             var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
-            using var marketWatcher = new ForexWatcher(usdJpy, gbpJpy);
+            using var forexWatcher = new ForexWatcher(usdJpy, gbpJpy);
 
             var expected = "USD/JPY 119.21"
                          + Environment.NewLine
                          + "GBP/JPY 157.13";
 
-            Assert.EndsWith(expected, marketWatcher.ToString());
+            Assert.EndsWith(expected, forexWatcher.ToString());
         }
 
         [Fact]
@@ -64,9 +64,9 @@ namespace InvertedObserver.Tests.Forex
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
             var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
-            using var marketWatcher = new ForexWatcher(usdJpy, gbpJpy);
+            using var forexWatcher = new ForexWatcher(usdJpy, gbpJpy);
 
-            Assert.Single(marketWatcher.Journal);
+            Assert.Single(forexWatcher.Journal);
         }
     }
 }
