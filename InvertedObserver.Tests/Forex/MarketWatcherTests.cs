@@ -11,7 +11,7 @@ namespace InvertedObserver.Tests.Forex
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
             var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
-            var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
+            var marketWatcher = new ForexWatcher(usdJpy, gbpJpy);
 
             marketWatcher.Dispose();
             gbpJpy.CurrentPrice = 154m;
@@ -24,7 +24,7 @@ namespace InvertedObserver.Tests.Forex
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
             var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
-            using var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
+            using var marketWatcher = new ForexWatcher(usdJpy, gbpJpy);
 
             usdJpy.CurrentPrice = 121m;
             gbpJpy.CurrentPrice = 154m;
@@ -37,7 +37,7 @@ namespace InvertedObserver.Tests.Forex
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
             var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
-            using var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
+            using var marketWatcher = new ForexWatcher(usdJpy, gbpJpy);
 
             usdJpy.CurrentPrice = 121m;
 
@@ -50,7 +50,7 @@ namespace InvertedObserver.Tests.Forex
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
             var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
-            using var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
+            using var marketWatcher = new ForexWatcher(usdJpy, gbpJpy);
 
             var expected = "USD/JPY 119.21"
                          + Environment.NewLine
@@ -64,7 +64,7 @@ namespace InvertedObserver.Tests.Forex
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
             var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
-            using var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
+            using var marketWatcher = new ForexWatcher(usdJpy, gbpJpy);
 
             Assert.Single(marketWatcher.Journal);
         }

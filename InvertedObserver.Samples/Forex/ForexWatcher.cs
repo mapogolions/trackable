@@ -5,13 +5,14 @@ using Microsoft.Extensions.Primitives;
 
 namespace InvertedObserver.Samples.Forex
 {
-    public class MarketWatcher : GroupObservable<CurrencyPair>, IObserver<GroupObservable<CurrencyPair>>, IDisposable
+    public class ForexWatcher : GroupObservable<CurrencyPair>,
+        IObserver<GroupObservable<CurrencyPair>>, IDisposable
     {
         private readonly CurrencyPair[] _currencies;
         private readonly List<(DateTime, string[])> _journal = new();
         private readonly IDisposable _registration;
 
-        public MarketWatcher(params CurrencyPair[] currencies) : base (currencies)
+        public ForexWatcher(params CurrencyPair[] currencies) : base (currencies)
         {
             _currencies = currencies;
             _registration = ChangeToken.OnChange(GetReloadToken, OnChange);
