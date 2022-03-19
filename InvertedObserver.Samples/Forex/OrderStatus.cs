@@ -1,4 +1,4 @@
-namespace InvertedObserver.Samples.ExchangeMarket;
+namespace InvertedObserver.Samples.Forex;
 
 public enum OrderStatus
 {

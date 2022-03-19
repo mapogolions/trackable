@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using InvertedObserver.Samples.ExchangeMarket;
+using InvertedObserver.Samples.Forex;
 using Xunit;
 
-namespace InvertedObserver.Tests.ExchangeMarket
+namespace InvertedObserver.Tests.Forex
 {
     public class OrdersTests
     {

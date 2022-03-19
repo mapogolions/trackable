@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Primitives;
 
-namespace InvertedObserver.Samples.ExchangeMarket
+namespace InvertedObserver.Samples.Forex
 {
     public class MarketWatcher : GroupObservable<CurrencyPair>, IObserver<GroupObservable<CurrencyPair>>, IDisposable
     {

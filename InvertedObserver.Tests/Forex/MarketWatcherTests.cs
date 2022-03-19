@@ -1,8 +1,8 @@
 using System;
-using InvertedObserver.Samples.ExchangeMarket;
+using InvertedObserver.Samples.Forex;
 using Xunit;
 
-namespace InvertedObserver.Tests.ExchangeMarket
+namespace InvertedObserver.Tests.Forex
 {
     public class MarketWatchTests
     {

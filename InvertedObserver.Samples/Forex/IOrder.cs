@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace InvertedObserver.Samples.ExchangeMarket
+namespace InvertedObserver.Samples.Forex
 {
     public interface IOrder
     {

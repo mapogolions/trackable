@@ -1,6 +1,6 @@
 using System.Threading;
 
-namespace InvertedObserver.Samples.ExchangeMarket
+namespace InvertedObserver.Samples.Forex
 {
     public class CurrencyPair : Observable
     {
