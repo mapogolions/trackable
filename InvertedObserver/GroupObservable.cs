@@ -15,4 +15,6 @@ namespace InvertedObserver
         public IChangeToken GetReloadToken() =>
             new CompositeChangeToken(_observables.Select(x => x.GetReloadToken()).ToArray());
     }
+
+    public class GroupObservable : GroupObservable<IObservable> { }
 }

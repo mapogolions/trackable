@@ -17,6 +17,7 @@ namespace InvertedObserver.Samples.ExchangeMarket
         public decimal CurrentPrice
         {
             get => _currentPrice;
+
             set
             {
                 _currentPrice = value;
