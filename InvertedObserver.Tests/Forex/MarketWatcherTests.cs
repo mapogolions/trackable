@@ -10,7 +10,7 @@ namespace InvertedObserver.Tests.Forex
         public void ShouldStopWatchingMarket()
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
-            var gbpJpy = new CurrencyPair("GBP/USD", 157.13m);
+            var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
             var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
 
             marketWatcher.Dispose();
@@ -23,7 +23,7 @@ namespace InvertedObserver.Tests.Forex
         public void ShouldCaptureMultipleChanges()
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
-            var gbpJpy = new CurrencyPair("GBP/USD", 157.13m);
+            var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
             using var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
 
             usdJpy.CurrentPrice = 121m;
@@ -36,7 +36,7 @@ namespace InvertedObserver.Tests.Forex
         public void ShouldJournalPriceChange()
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
-            var gbpJpy = new CurrencyPair("GBP/USD", 157.13m);
+            var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
             using var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
 
             usdJpy.CurrentPrice = 121m;
@@ -49,12 +49,12 @@ namespace InvertedObserver.Tests.Forex
         public void ShouldDump()
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
-            var gbpJpy = new CurrencyPair("GBP/USD", 157.13m);
+            var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
             using var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
 
             var expected = "USD/JPY 119.21"
                          + Environment.NewLine
-                         + "GBP/USD 157.13";
+                         + "GBP/JPY 157.13";
 
             Assert.EndsWith(expected, marketWatcher.ToString());
         }
@@ -63,7 +63,7 @@ namespace InvertedObserver.Tests.Forex
         public void ShouldCaptureTheStartPrice()
         {
             var usdJpy = new CurrencyPair("USD/JPY", 119.21m);
-            var gbpJpy = new CurrencyPair("GBP/USD", 157.13m);
+            var gbpJpy = new CurrencyPair("GBP/JPY", 157.13m);
             using var marketWatcher = new MarketWatcher(usdJpy, gbpJpy);
 
             Assert.Single(marketWatcher.Journal);
