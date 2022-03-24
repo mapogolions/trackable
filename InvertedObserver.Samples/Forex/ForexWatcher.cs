@@ -21,7 +21,7 @@ namespace InvertedObserver.Samples.Forex
 
         public IReadOnlyList<(DateTime, string[])> Journal => _journal;
 
-        public GroupObservable<CurrencyPair> Subject => this;
+        GroupObservable<CurrencyPair> IObserver<GroupObservable<CurrencyPair>>.Subject => this;
 
         public void Dispose() => _registration.Dispose();
 

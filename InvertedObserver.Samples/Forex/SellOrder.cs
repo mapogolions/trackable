@@ -27,7 +27,7 @@ namespace InvertedObserver.Samples.Forex
         public decimal OpenPrice { get; private set; }
         public IReadOnlyList<(DateTime Timestamp, decimal Price)> PriceHistory => _priceHistory;
 
-        public CurrencyPair Subject => _currencyPair;
+        CurrencyPair IObserver<CurrencyPair>.Subject => _currencyPair;
 
         private void OnChangePrice()
         {
