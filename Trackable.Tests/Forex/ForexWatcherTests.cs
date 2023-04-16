@@ -1,8 +1,8 @@
 using System;
-using InvertedObserver.Samples.Forex;
+using Trackable.Samples.Forex;
 using Xunit;
 
-namespace InvertedObserver.Tests.Forex
+namespace Trackable.Tests.Forex
 {
     public class ForexWatcherTests
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace InvertedObserver.Samples.Forex
+namespace Trackable.Samples.Forex
 {
     public interface IOrder
     {

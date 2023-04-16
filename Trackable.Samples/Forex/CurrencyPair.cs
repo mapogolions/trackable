@@ -1,8 +1,8 @@
 using System.Threading;
 
-namespace InvertedObserver.Samples.Forex
+namespace Trackable.Samples.Forex
 {
-    public class CurrencyPair : Observable
+    public class CurrencyPair : Trackable
     {
         private decimal _currentPrice;
 

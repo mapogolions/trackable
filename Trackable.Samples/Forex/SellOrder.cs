@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 
-namespace InvertedObserver.Samples.Forex
+namespace Trackable.Samples.Forex
 {
-    public class SellOrder : IOrder, IObserver<CurrencyPair>
+    public class SellOrder : IOrder, ITracker<CurrencyPair>
     {
         private readonly decimal _supportLevel;
         private readonly decimal _takeProfit;
@@ -18,7 +18,7 @@ namespace InvertedObserver.Samples.Forex
             _supportLevel = supportLevel;
             _takeProfit = takeProfit;
             _currencyPair = currencyPair;
-            _registration = ChangeToken.OnChange(_currencyPair.GetReloadToken, OnChangePrice);
+            _registration = ChangeToken.OnChange(_currencyPair.GetToken, OnChangePrice);
             OnChangePrice();
         }
 
@@ -27,7 +27,7 @@ namespace InvertedObserver.Samples.Forex
         public decimal OpenPrice { get; private set; }
         public IReadOnlyList<(DateTime Timestamp, decimal Price)> PriceHistory => _priceHistory;
 
-        CurrencyPair IObserver<CurrencyPair>.Subject => _currencyPair;
+        CurrencyPair ITracker<CurrencyPair>.Subject => _currencyPair;
 
         private void OnChangePrice()
         {

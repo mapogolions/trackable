@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Primitives;
 
-namespace InvertedObserver.Samples.Forex
+namespace Trackable.Samples.Forex
 {
-    public class ForexWatcher : GroupObservable<CurrencyPair>,
-        IObserver<GroupObservable<CurrencyPair>>, IDisposable
+    public class ForexWatcher : GroupTrackable<CurrencyPair>,
+        ITracker<GroupTrackable<CurrencyPair>>, IDisposable
     {
         private readonly CurrencyPair[] _currencies;
         private readonly List<(DateTime, string[])> _journal = new();
@@ -15,13 +15,13 @@ namespace InvertedObserver.Samples.Forex
         public ForexWatcher(params CurrencyPair[] currencies) : base (currencies)
         {
             _currencies = currencies;
-            _registration = ChangeToken.OnChange(GetReloadToken, OnChange);
+            _registration = ChangeToken.OnChange(GetToken, OnChange);
             OnChange();
         }
 
         public IReadOnlyList<(DateTime, string[])> Journal => _journal;
 
-        GroupObservable<CurrencyPair> IObserver<GroupObservable<CurrencyPair>>.Subject => this;
+        GroupTrackable<CurrencyPair> ITracker<GroupTrackable<CurrencyPair>>.Subject => this;
 
         public void Dispose() => _registration.Dispose();
 

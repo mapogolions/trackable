@@ -1,4 +1,4 @@
-namespace InvertedObserver.Samples.Forex;
+namespace Trackable.Samples.Forex;
 
 public enum OrderStatus
 {

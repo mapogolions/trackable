@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\InvertedObserver\InvertedObserver.csproj" />
+    <ProjectReference Include="..\Trackable\Trackable.csproj" />
      <PackageReference Include="Microsoft.Extensions.Primitives" Version="6.0" />
   </ItemGroup>
 

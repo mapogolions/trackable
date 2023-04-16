@@ -1,13 +1,13 @@
 using System.Threading;
 using Microsoft.Extensions.Primitives;
 
-namespace InvertedObserver
+namespace Trackable
 {
-    public abstract class Observable : IObservable
+    public abstract class Trackable : ITrackable
     {
         private CancellationTokenSource _cts = new();
 
-        public virtual IChangeToken GetReloadToken() => new CancellationChangeToken(_cts.Token);
+        public virtual IChangeToken GetToken() => new CancellationChangeToken(_cts.Token);
 
         protected virtual void RefreshToken()
         {

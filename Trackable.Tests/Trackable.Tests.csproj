@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InvertedObserver.Samples\InvertedObserver.Samples.csproj" />
+    <ProjectReference Include="..\Trackable.Samples\Trackable.Samples.csproj" />
   </ItemGroup>
 
 </Project>
